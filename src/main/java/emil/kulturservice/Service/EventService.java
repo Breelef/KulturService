@@ -2,11 +2,12 @@ package emil.kulturservice.Service;
 
 import emil.kulturservice.Model.Event;
 import emil.kulturservice.Repository.EventRepo;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+
+import static java.util.Collections.addAll;
 
 @Service
 public class EventService implements EventInterfaceService{
@@ -18,8 +19,7 @@ public class EventService implements EventInterfaceService{
 
     @Override
     public Set<Event> findAll() {
-        Set<Event> set = new HashSet<>(eventRepo.findAll());
-        return set;
+        return new HashSet<>(eventRepo.findAll());
     }
 
     @Override
@@ -41,5 +41,12 @@ public class EventService implements EventInterfaceService{
     public Optional<Event> findById(Long aLong) {
         return eventRepo.findById(aLong);
     }
+    public List<Event> getEventsSorted(){
+        return new ArrayList<>(eventRepo.findAll(Sort.by(Sort.Direction.ASC, "dateTime")));
+    }
 
+    @Override
+    public List<Event> findEventByName(String name) {
+        return eventRepo.findEventByName(name);
+    }
 }
